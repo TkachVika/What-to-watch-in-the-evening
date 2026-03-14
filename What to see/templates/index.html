@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Що подивитись?</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 🔝 TOP BAR -->
+    <div class="top-bar">
+
+    <div class="top-left">
+        <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+    </div>
+
+    <div class="top-right">
+        <div class="user-box">
+
+            {% if session.get("user") %}
+                <img src="{{ url_for('static', filename='images/avatars/' + session.user.avatar) }}"
+                     class="avatar-small">
+                <a href="/logout" class="user-text">
+                    {{ session.user.username }}
+                </a>
+            {% else %}
+                <img src="{{ url_for('static', filename='images/avatars/avatar.png') }}"
+                     class="avatar-small">
+                <a href="/login" class="user-text">
+                    Вхід
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+    <!-- 🔍 SEARCH -->
+    <div class="top-search">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Пошук за назвою..."
+            class="search-input small-search">
+    </div>
+
+    <h1>🍿 Що подивитись сьогодні?</h1>
+
+    <!-- 🎯 FILTER FORM -->
+    <form method="post" class="form-box">
+
+        <label>Тип:</label>
+        <select name="type">
+            <option value="фільм">Фільм</option>
+            <option value="серіал">Серіал</option>
+        </select>
+
+        <label>Жанр:</label>
+        <select name="genre">
+            <option value="драма">Драма</option>
+            <option value="мелодрама">Мелодрама</option>
+            <option value="комедія">Комедія</option>
+            <option value="детектив">Детектив</option>
+            <option value="жахи">Жахи</option>
+            <option value="мультфільми">Мультфільми</option>
+            <option value="бойовик">Бойовик</option>
+        </select>
+
+        <label>Час:</label>
+        <select name="time">
+            <option value="25">25 хв</option>
+            <option value="45">45 хв</option>
+            <option value="60">1 година</option>
+            <option value="90">1 год 30 хв</option>
+            <option value="120">2 години</option>
+        </select>
+
+        <button type="submit">✨ Підібрати</button>
+    </form>
+
+    <!-- 🎬 MOVIES -->
+    <div class="movies-grid">
+        {% for m in result %}
+            <div class="movie-mini" onclick='openModal({{ m|tojson }})'>
+                <img src="/static/images/{{ m.image }}">
+                <p>{{ m.title }}</p>
+                <button class="fav-btn"
+                    onclick="event.stopPropagation(); addToFav('{{ m.title }}')">
+                    ❤️
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- 🪟 MODAL -->
+<div id="movieModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">×</span>
+        <img id="modalPoster" class="modal-poster">
+        <h2 id="modalTitle"></h2>
+        <p id="modalInfo" class="movie-meta"></p>
+        <p id="modalDescription" class="movie-desc"></p>
+    </div>
+</div>
+
+<!-- 🔎 SEARCH SCRIPT -->
+<script>
+const input = document.getElementById("searchInput");
+const grid = document.querySelector(".movies-grid");
+
+input.addEventListener("input", () => {
+    const query = input.value.trim();
+    grid.innerHTML = "";
+
+    if (!query) return;
+
+    fetch(`/search?q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(m => {
+                const card = document.createElement("div");
+                card.className = "movie-mini";
+                card.onclick = () => openModal(m);
+
+                card.innerHTML = `
+                    <img src="/static/images/${m.image}">
+                    <p>${m.title}</p>
+                    <button class="fav-btn"
+                        onclick="event.stopPropagation(); addToFav('${m.title}')">
+                        ❤️
+                    </button>
+                `;
+
+                grid.appendChild(card);
+            });
+        });
+});
+</script>
+
+<!-- 🌙 THEME -->
+<script>
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+    localStorage.setItem(
+        "theme",
+        document.body.classList.contains("dark") ? "dark" : "light"
+    );
+}
+
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+}
+</script>
+
+<!-- ❤️ FAVORITES -->
+<script>
+function addToFav(title) {
+    fetch("/add_favorite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title })
+    })
+    .then(res => {
+        if (res.status === 401) {
+            window.location.href = "/login";
+        } else {
+            alert("❤️ Додано в обране");
+        }
+    });
+}
+</script>
+
+<!-- 🪟 MODAL -->
+<script>
+function openModal(movie) {
+    document.getElementById("movieModal").style.display = "flex";
+    document.getElementById("modalPoster").src = "/static/images/" + movie.image;
+    document.getElementById("modalTitle").innerText = movie.title;
+    document.getElementById("modalInfo").innerText =
+        movie.type + " • " + movie.genre + " • " + movie.time + " хв";
+    document.getElementById("modalDescription").innerText =
+        movie.description || "Опис поки відсутній 💭";
+}
+
+function closeModal() {
+    document.getElementById("movieModal").style.display = "none";
+}
+
+const modal = document.getElementById("movieModal");
+
+modal.addEventListener("click", function(e) {
+    if (e.target === modal) {
+        closeModal();
+    }
+});
+</script>
+
+
+</body>
+</html>

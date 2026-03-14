@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Моє обране</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>❤️ Моє обране</h1>
+
+<div class="movies-grid">
+{% for m in movies %}
+    <div class="movie-mini">
+        <img src="/static/images/{{ m.image }}">
+        <p>{{ m.title }}</p>
+    </div>
+{% endfor %}
+</div>
+
+</body>
+</html>

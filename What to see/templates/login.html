@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Вхід</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="login-box">
+    <h1>Вхід</h1>
+
+    <form method="post">
+        <label class="input-label">Нікнейм</label>
+        <input type="text" name="username" placeholder="Нікнейм" required>
+
+        <label class="input-label">Пароль🔒</label>
+        <input type="password" name="password" placeholder="Пароль" required>
+
+        <div class="avatar-section">
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="female.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/female.png') }}" alt="Female Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="female2.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/female2.png') }}" alt="Female Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="female3.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/female3.png') }}" alt="Female Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="female4.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/female4.png') }}" alt="Female Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="female5.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/female5.png') }}" alt="Female Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="female6.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/female6.png') }}" alt="Female Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="queen.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/queen.png') }}" alt="Female Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="male.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/male.png') }}" alt="Male Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="male.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/male2.png') }}" alt="Male Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="male3.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/male3.png') }}" alt="Male Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="male4.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/male4.png') }}" alt="Male Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="male5.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/male5.png') }}" alt="Male Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+
+            <label class="avatar-option">
+                <input type="radio" name="avatar" value="male6.png">
+                <div class="avatar-wrapper">
+                    <img src="{{ url_for('static', filename='images/avatars/male6.png') }}" alt="Male Avatar">
+                    <div class="checkmark">✓</div>
+                </div>
+            </label>
+        </div>
+
+        <button type="submit">Вхід</button>
+    </form>
+</div>
+</body>
+</html>
